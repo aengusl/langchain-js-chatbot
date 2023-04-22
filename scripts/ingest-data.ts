@@ -16,7 +16,6 @@ export const run = async () => {
       '.pdf': (path) => new CustomPDFLoader(path),
     });
 
-    // const loader = new PDFLoader(filePath);
     const rawDocs = await directoryLoader.load();
 
     /* Split text into chunks */
@@ -27,6 +26,13 @@ export const run = async () => {
 
     const docs = await textSplitter.splitDocuments(rawDocs);
     console.log('split docs', docs);
+
+    // Add the code to print the chunks here
+    docs.forEach((chunk, chunkIndex) => {
+      console.log(`Chunk ${chunkIndex + 1}: ${chunk.pageContent}`);
+    });
+    
+    
 
     console.log('creating vector store...');
     /*create and store the embeddings in the vectorStore*/
@@ -44,6 +50,7 @@ export const run = async () => {
     throw new Error('Failed to ingest your data');
   }
 };
+
 
 (async () => {
   await run();
