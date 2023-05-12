@@ -27,6 +27,7 @@ export default function Home() {
       {
         message: "Hi, I'm Pip! I'm here to help you understand the content of pdf files. Ask me a question about the content of a pdf file and I'll try to answer it.",
         type: 'apiMessage',
+        isStreaming: true,
       },
     ],
     history: [],
@@ -61,6 +62,7 @@ export default function Home() {
         {
           type: 'userMessage',
           message: question,
+          isStreaming: true,
         },
       ],
     }));
@@ -93,6 +95,7 @@ export default function Home() {
               type: 'apiMessage',
               message: data.text,
               sourceDocs: data.sourceDocuments,
+              isStreaming: false,
             },
           ],
           history: [...state.history, [question, data.text]],
@@ -125,7 +128,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-              Chat with your papers
+              Prostate Information Partner
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -137,7 +140,7 @@ export default function Home() {
                     icon = (
                       <Image
                         key={index}
-                        src="/bot-image.png"
+                        src="/pip-image.jpeg"
                         alt="AI"
                         width="40"
                         height="40"
@@ -224,7 +227,7 @@ export default function Home() {
                     placeholder={
                       loading
                         ? 'Waiting for response...'
-                        : 'What are themes of this paper?'
+                        : 'Ask me anything about prostate cancer'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -262,7 +265,7 @@ export default function Home() {
         </div>
         <footer className="m-auto p-4">
           <a href="https://twitter.com/mayowaoshin">
-            Powered by LangChainAI. Demo built by Mayo (Twitter: @mayowaoshin).
+            Deji and The Goose.
           </a>
         </footer>
       </Layout>
