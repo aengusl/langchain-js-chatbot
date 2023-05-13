@@ -1,6 +1,7 @@
 import { OpenAI } from 'langchain/llms/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { ConversationalRetrievalQAChain } from 'langchain/chains';
+import { Stream } from 'stream';
 
 const CONDENSE_PROMPT = `Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 
@@ -17,12 +18,14 @@ You are trying to help researchers understand the content of academic papers. In
 {context}
 
 Question: {question}
-Helpful answer in markdown:`;
+Answer:
+<stream>`;
 
 export const makeChain = (vectorstore: PineconeStore) => {
   const model = new OpenAI({
     temperature: 0, // increase temepreature to get more creative answers
     modelName: 'gpt-4', //change this to gpt-4 if you have access
+    streaming: true,
   });
 
   const chain = ConversationalRetrievalQAChain.fromLLM(
@@ -32,7 +35,13 @@ export const makeChain = (vectorstore: PineconeStore) => {
       qaTemplate: QA_PROMPT,
       questionGeneratorTemplate: CONDENSE_PROMPT,
       returnSourceDocuments: true, //The number of source documents returned is 4 by default
-    },
+    }
   );
+  chain.stream = (question, callback) => {
+    const promise = chain.answer(question);
+    promise.then(answer => {
+      callback(answer);
+    });
+  };
   return chain;
 };
