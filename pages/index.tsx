@@ -25,7 +25,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: "Hi, I'm Pip! I'm here to help you understand the content of pdf files. Ask me a question about the content of a pdf file and I'll try to answer it.",
+        message: "Hi My Name is PIP. I am here to help you understand your prostate cancer diagnosis and treatment options.",
         type: 'apiMessage',
         isStreaming: true,
       },

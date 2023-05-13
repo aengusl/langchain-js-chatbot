@@ -1,6 +1,7 @@
 import { Document } from 'langchain/document';
 import { readFile } from 'fs/promises';
 import { BaseDocumentLoader } from 'langchain/document_loaders';
+import * as fs from 'fs';
 
 export abstract class BufferLoader extends BaseDocumentLoader {
   constructor(public filePathOrBlob: string | Blob) {
@@ -58,4 +59,35 @@ async function PDFLoaderImports() {
       'Failed to load pdf-parse. Please install it with eg. `npm install pdf-parse`.',
     );
   }
+}
+
+// export function JsonLoader(): {[key: string]: any} {
+//   let rawDocs: {[key: string]: any} = {}; 
+//   let filePath = 'jsons';
+//   for (let i = 0; i < fs.readdirSync(filePath).length; i++) {
+//     const fileName = fs.readdirSync(filePath)[i];
+//     const fileContent = fs.readFileSync(`${filePath}/${fileName}`, 'utf8');
+//     let index = i.toString();
+//     rawDocs[index] = JSON.parse(fileContent);
+//   }
+//   return rawDocs;
+// }
+
+
+
+
+export function JsonLoader(): Document[] {
+  let docs: Document[] = []; 
+  let filePath = 'jsons';
+  
+  for (let i = 0; i < fs.readdirSync(filePath).length; i++) {
+    const fileName = fs.readdirSync(filePath)[i];
+    const fileContent = fs.readFileSync(`${filePath}/${fileName}`, 'utf8');
+    const parsedContent = JSON.parse(fileContent);
+
+    let doc = new Document({pageContent: parsedContent.pageContent, metadata: parsedContent.metaData});
+    docs.push(doc);
+  }
+  
+  return docs;
 }
