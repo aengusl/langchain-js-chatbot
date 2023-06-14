@@ -1,11 +1,10 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, FormEvent } from 'react';
 import Layout from '@/components/layout';
 import styles from '@/styles/Home.module.css';
 import { Message } from '@/types/chat';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import LoadingDots from '@/components/ui/LoadingDots';
-import { Document } from 'langchain/document';
 import {
   Accordion,
   AccordionContent,
@@ -14,29 +13,42 @@ import {
 } from '@/components/ui/accordion';
 
 export default function Home() {
+  const [formResponses, setFormResponses] = useState({});
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [messageState, setMessageState] = useState<{
     messages: Message[];
-    pending?: string;
     history: [string, string][];
-    pendingSourceDocs?: Document[];
   }>({
     messages: [
       {
-        message: "Hi My Name is PIP. I am here to help you understand your prostate cancer diagnosis and treatment options.",
+        message: "Hi, my name is PIP. I am here to help you understand your prostate cancer diagnosis and treatment options.",
         type: 'apiMessage',
-        isStreaming: true,
       },
     ],
     history: [],
   });
 
+  const handleFormSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    const formData = new FormData(event.target as HTMLFormElement);
+    const formResponses: any = {};
+    formData.forEach((value, key) => {
+      formResponses[key] = value;
+    });
+    setFormResponses(formResponses);
+    console.log("Form Responses in JSON:", formResponses);
+
+    setIsSubmitted(true);
+  };
+
   const { messages, history } = messageState;
 
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
 
   useEffect(() => {
     textAreaRef.current?.focus();
@@ -128,8 +140,43 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-              Prostate Information Partner
+            Prostate Information Partner
           </h1>
+
+          {/* Form Starts */}
+          <form onSubmit={handleFormSubmit}>
+            <div>
+              <label htmlFor="age">Age:</label>
+              <input type="number" name="age" id="age" required />
+            </div>
+
+            <div>
+              <label htmlFor="exercise">Do you exercise at high intensity regularly?</label>
+              <select name="exercise" id="exercise" required>
+                <option value="more_than_three_times_a_week">more than three times a week</option>
+                <option value="one_to_three_times_per_week">1 - 3 times per week</option>
+                <option value="one_to_four_times_per_month">1-4 times per month</option>
+                <option value="less_than_once_per_month">less than once per month</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="healthyEating">Do you eat healthily?</label>
+              <select name="healthyEating" id="healthyEating" required>
+                <option value="very_strictly">yes, very strictly</option>
+                <option value="mostly">mostly</option>
+                <option value="not_really">not really</option>
+              </select>
+            </div>
+
+            {/* ...rest of the form fields... */}
+
+            <input type="submit" value="Submit" />
+            {isSubmitted && <p>Form successfully submitted!</p>}
+          </form>
+          {/* Form Ends */}
+
+          {/* ...rest of your original code... */}
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
@@ -262,10 +309,11 @@ export default function Home() {
               </div>
             )}
           </main>
+
         </div>
         <footer className="m-auto p-4">
           <a href="https://twitter.com/mayowaoshin">
-            Brought to you by Profess. 
+            Brought to you by Profess.
           </a>
         </footer>
       </Layout>
