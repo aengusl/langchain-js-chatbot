@@ -32,7 +32,7 @@ export const run = async () => {
       chunkOverlap: 200,
     });
 
-    const docs = await textSplitter.splitDocuments(rawDocs);
+    const docs = await textSplitter.splitDocuments(rawDocs); 
     console.log('split docs', docs);
 
     // Add the code to print the chunks here
