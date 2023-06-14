@@ -91,6 +91,7 @@ export default function Home() {
         body: JSON.stringify({
           question,
           history,
+          formResponses,
         }),
       });
       const data = await response.json();
