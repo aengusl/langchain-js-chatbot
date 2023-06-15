@@ -144,43 +144,46 @@ export default function Home() {
             Prostate Information Partner
           </h1>
 
-          {/* Form Starts */}
-          <form onSubmit={handleFormSubmit}>
-            <div>
-              <label htmlFor="age">Age:</label>
-              <input type="number" name="age" id="age" required />
-            </div>
-
-            <div>
-              <label htmlFor="exercise">Do you exercise at high intensity regularly?</label>
-              <select name="exercise" id="exercise" required>
-                <option value="more_than_three_times_a_week">more than three times a week</option>
-                <option value="one_to_three_times_per_week">1 - 3 times per week</option>
-                <option value="one_to_four_times_per_month">1-4 times per month</option>
-                <option value="less_than_once_per_month">less than once per month</option>
-              </select>
-            </div>
-
-            <div>
-              <label htmlFor="healthyEating">Do you eat healthily?</label>
-              <select name="healthyEating" id="healthyEating" required>
-                <option value="very_strictly">yes, very strictly</option>
-                <option value="mostly">mostly</option>
-                <option value="not_really">not really</option>
-              </select>
-            </div>
-
-            {/* ...rest of the form fields... */}
-
-            <input type="submit" value="Submit" />
-            {isSubmitted && <p>Form successfully submitted!</p>}
-          </form>
           {/* Form Ends */}
 
           {/* ...rest of your original code... */}
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
+                {!isSubmitted && (
+                  
+                  <div className={styles.formcontainer}>
+                    <form onSubmit={handleFormSubmit}>
+                      <div>
+                        <label htmlFor="age">Age:</label>
+                        <input type="number" name="age" id="age" required />
+                      </div>
+
+                      <div>
+                        <label htmlFor="exercise">Do you exercise at high intensity regularly?</label>
+                        <select name="exercise" id="exercise" required>
+                          <option value="more_than_three_times_a_week">more than three times a week</option>
+                          <option value="one_to_three_times_per_week">1 - 3 times per week</option>
+                          <option value="one_to_four_times_per_month">1-4 times per month</option>
+                          <option value="less_than_once_per_month">less than once per month</option>
+                        </select>
+                        </div>
+
+                        <div>
+                          <label htmlFor="healthyEating">Do you eat healthily?</label>
+                          <select name="healthyEating" id="healthyEating" required>
+                            <option value="very_strictly">yes, very strictly</option>
+                            <option value="mostly">mostly</option>
+                            <option value="not_really">not really</option>
+                          </select>
+                        </div>
+
+
+
+                        <input type="submit" value="Submit" />
+                      </form>
+                    </div>
+                )} 
                 {messages.map((message, index) => {
                   let icon;
                   let className;
