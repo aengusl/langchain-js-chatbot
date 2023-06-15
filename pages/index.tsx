@@ -177,33 +177,32 @@ export default function Home() {
                     <form onSubmit={handleFormSubmit}>
                       <div>
                         <label htmlFor="age">Age:</label>
-                        <input type="number" name="age" id="age" required />
+                        <input type="number" name="age" id="age" required disabled={isSubmitted} />
                       </div>
 
                       <div>
                         <label htmlFor="exercise">Do you exercise at high intensity regularly?</label>
-                        <select name="exercise" id="exercise" required>
+                        <select name="exercise" id="exercise" required disabled={isSubmitted}>
                           <option value="more_than_three_times_a_week">more than three times a week</option>
                           <option value="one_to_three_times_per_week">1 - 3 times per week</option>
                           <option value="one_to_four_times_per_month">1-4 times per month</option>
                           <option value="less_than_once_per_month">less than once per month</option>
                         </select>
-                        </div>
+                      </div>
 
-                        <div>
-                          <label htmlFor="healthyEating">Do you eat healthily?</label>
-                          <select name="healthyEating" id="healthyEating" required>
-                            <option value="very_strictly">yes, very strictly</option>
-                            <option value="mostly">mostly</option>
-                            <option value="not_really">not really</option>
-                          </select>
-                        </div>
+                      <div>
+                        <label htmlFor="healthyEating">Do you eat healthily?</label>
+                        <select name="healthyEating" id="healthyEating" required disabled={isSubmitted}>
+                          <option value="very_strictly">yes, very strictly</option>
+                          <option value="mostly">mostly</option>
+                          <option value="not_really">not really</option>
+                        </select>
+                      </div>
 
+                      <input type="submit" value="Submit" disabled={isSubmitted} />
+                    </form>
+                  </div>
 
-
-                        <input type="submit" value="Submit" />
-                      </form>
-                    </div>
                   {isSubmitted && (
                     <div className={styles.apimessage}>
                       <div className={styles.boticon}>
