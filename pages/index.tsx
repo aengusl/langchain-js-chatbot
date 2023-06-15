@@ -157,7 +157,22 @@ export default function Home() {
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
-                  
+                  <div className={styles.apimessage}>
+                    <div className={styles.boticon}>
+                      <Image
+                        src="/pip-image.jpeg"
+                        alt="PIP"
+                        width="40"
+                        height="40"
+                        priority
+                      />
+                    </div>
+                    <div className={styles.markdownanswer}>
+                      <ReactMarkdown linkTarget="_blank">
+                        {"Hi, my name is PIP. I am here to help you understand your prostate cancer diagnosis and treatment options."}
+                      </ReactMarkdown>
+                    </div>
+                  </div>
                   <div className={styles.formcontainer}>
                     <form onSubmit={handleFormSubmit}>
                       <div>
@@ -189,6 +204,24 @@ export default function Home() {
                         <input type="submit" value="Submit" />
                       </form>
                     </div>
+                  {isSubmitted && (
+                    <div className={styles.apimessage}>
+                      <div className={styles.boticon}>
+                        <Image
+                          src="/pip-image.jpeg"
+                          alt="PIP"
+                          width="40"
+                          height="40"
+                          priority
+                        />
+                      </div>
+                      <div className={styles.markdownanswer}>
+                        <ReactMarkdown linkTarget="_blank">
+                          {"Thanks for filling out the form, now feel free to ask some questions"}
+                        </ReactMarkdown>
+                      </div>
+                    </div>
+                  )}
                 {messages.map((message, index) => {
                   let icon;
                   let className;
