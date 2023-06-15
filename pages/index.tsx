@@ -39,8 +39,15 @@ export default function Home() {
     });
     setFormResponses(formResponses);
     console.log("Form Responses in JSON:", formResponses);
-
+  
     setIsSubmitted(true);
+    const successMessage = document.createElement("div");
+    successMessage.className = styles.successmessage;
+    successMessage.innerHTML = "<p>Thank you for submitting the form!</p>";
+    const formElement = event.target.closest("form");
+    if (formElement) {
+      formElement.parentNode?.appendChild(successMessage);
+    }
   };
 
   const { messages, history } = messageState;
@@ -150,7 +157,6 @@ export default function Home() {
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
-                {!isSubmitted && (
                   
                   <div className={styles.formcontainer}>
                     <form onSubmit={handleFormSubmit}>
@@ -183,7 +189,6 @@ export default function Home() {
                         <input type="submit" value="Submit" />
                       </form>
                     </div>
-                )} 
                 {messages.map((message, index) => {
                   let icon;
                   let className;
